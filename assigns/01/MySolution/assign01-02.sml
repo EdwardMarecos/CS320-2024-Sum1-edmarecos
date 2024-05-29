@@ -26,23 +26,11 @@ fun isPrime(n : int) : bool =
                    checked 2 already *)
     in
     (* check base conditions first *)
-        if n <= 1 then
-            (* if n is 0 or negative it is not prime *)
-            false
-        else 
-            if 
-                (* 2 is the smallest prime number *)
-                n = 2 
-            then
-                true
-        else
-            if
-                (* if n is even, it is not prime *)
-                n mod 2 = 0
-            then
-                false
-        else
-            notDivisible(3)
+        case (n <= 1, n = 2, n mod 2 = 0) of
+            (true, _, _) => false       (* if n is 0 or negative it is not prime *)
+          | (_, true, _) => true        (* 2 is the smallest prime number *)
+          | (_, _, true) => false       (* if n is even, it is not prime *)
+          | _            => notDivisible(3) 
             (* if none of our base cases pass, 
                we check for factors after 2, 
                we want it to not be divisible *)
