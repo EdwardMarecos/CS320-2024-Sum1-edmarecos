@@ -33,4 +33,3 @@ fun int2str(i : int) : string =
 (* ****** ****** *)
 
 (* end of [CS320-2024-Sum1-assign01-03.sml] *)
-val check = int2str(~3210)
