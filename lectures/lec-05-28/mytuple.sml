@@ -10,4 +10,4 @@ val _ = PolyML.print("xx.2 = ", #2(xx))
 
 (* ****** ****** *)
 
-(* end of [lectures/lec-05-22/mytuple.sml] *)
+(* end of [lectures/lec-05-28/mytuple.sml] *)

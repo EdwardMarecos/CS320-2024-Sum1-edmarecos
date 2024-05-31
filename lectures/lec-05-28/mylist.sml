@@ -83,4 +83,4 @@ val xs6 = PolyML.print("xs5 = ", xs5)
 
 (* ****** ****** *)
 
-(* end of [lectures/lec-05-22/mylist.sml] *)
+(* end of [lectures/lec-05-28/mylist.sml] *)
