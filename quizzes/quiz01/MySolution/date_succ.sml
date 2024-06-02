@@ -32,16 +32,19 @@ Please give your implementation of [date_succ] below *)
 fun date_succ( date : date) : date =
     let 
         fun makeDate(year : int, month: int, day : int) : date =
-            val date_succ = {year = year, month = month, day = day}
+            {year = year, month = month, day = day}
+        val {year = yr, month = mth, day = dy} = date
     in 
-        case date (year mod 4 = 0, month mod 2 = 1, month = 2, month = 12, day = 30, day = 31, day = 28, day = 29, month = 8)
-            (true, _, true, _, _, _, _, true, _)   => makeDate(year, 3, 1)             (* feb 29 to march 1*)
-          | (false, _, true, _, _, _, true, _, _)  => makeDate(year, 3, 1)             (* feb 28 to march 1 on non leap year*)
-          | (_, _, _, true, _, true, _, _, _)      => makeDate(year + 1, 1, 1)         (* dec 31 to jan 1 new year*)
-          | (_, _, _, _, _, true, _, _, _)         => makeDate(year, month + 1, 1)     (* months with 31 days to next month*)
-          | (_, _, _, _, _, _, _, _, true)         => makeDate(year, month + 1, 1)     (* august*)
-          | (_, false, _, _, true, _, _, _, _)     => makeDate(year, month + 1, 1)     (* other months *)
-          | _                                       => makeDate(year, month, day + 1)  (*days that progress as normal *)
+        case (yr mod 4 = 0, mth mod 2 = 1, mth = 2, mth = 12, dy = 30, dy = 31, dy = 28, dy = 29, mth = 8) of
+            (true, _, true, _, _, _, _, true, _)   => makeDate(yr, 3, 1)            (* feb 29 to march 1 *)
+          | (false, _, true, _, _, _, true, _, _)  => makeDate(yr, 3, 1)            (* feb 28 to march 1 on non leap year *)
+          | (_, _, _, true, _, true, _, _, _)      => makeDate(yr + 1, 1, 1)        (* dec 31 to jan 1 new year *)
+          | (_, _, _, _, _, true, _, _, _)         => makeDate(yr, mth + 1, 1)      (* months with 31 days to next month *)
+          | (_, _, _, _, _, _, _, _, true)         => makeDate(yr, mth + 1, 1)      (* august*)
+          | (_, false, _, _, true, _, _, _, _)     => makeDate(yr, mth + 1, 1)      (* other months *)
+          | _                                      => makeDate(yr, mth, dy + 1)     (* days that progress as normal *)
+    end
 
+(* main correction change some variable names for easier distinction for me, and properly extract data from date *)
 (* end of [quizzes/quiz01/date_succ.sml] *)
 
