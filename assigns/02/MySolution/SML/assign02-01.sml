@@ -29,22 +29,11 @@ fun xlist_size ( xs : 'a xlist) : int =
               | xlist_snoc(rest, _)     => loop( rest, size + 1)
               | xlist_append(xs1, xs2)  => loop( xs1, loop( xs2, size))
               | xlist_reverse(rest)     => loop( rest, size)
-                (* cons cell has element and sublist *)
+                (* cons cell has element and sublist*)
                 (* representative of an empty list *)
     in
         loop( xs , 0)       
     end
-
-(* untested,  *)
-(* fun xlist_size ( xs : 'a xlist ) : int = 
-	let
-		fun loop ( xs : 'a xlist , length : int ) : int =
-			case xs of 
-				xlist_nil					=> 0													(* representative of empty xlist *)
-			| x1 : : xs					=> loop( xs , length + 1 )		(* non-empty list not complete, need to look at documentation*)
-	in
-		loop( xs , 0 )
-	end *)
 
 (* ****** ****** *)
 
