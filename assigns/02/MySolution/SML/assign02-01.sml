@@ -20,9 +20,18 @@ and then compute the size of the converted list
 
 (* ****** ****** *)
 
-fun
-xlist_size
-(xs: 'a xlist): int = raise NotImplemented320
+fun xlist_size ( xs : 'a xlist) : int =
+    let 
+        fun loop ( xs : 'a xlist , size : int ) : int = 
+            case xs of
+                x1 : : xs           => loop( xs , size + 1)
+              | _                   => size
+
+                (* cons cell has element and sublist *)
+                (* representative of an empty list *)
+    in
+        loop( xs , 0)       
+    end
 
 (* ****** ****** *)
 

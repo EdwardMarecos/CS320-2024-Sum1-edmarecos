@@ -57,4 +57,3 @@ fun date_cmpr ( date1 : string, date2 : string) : int =
 (* main correction, account for case where no special transition from yr -> mth -> day is needed *)
 
 (* end of [quizzes/quiz01/date_cmpr.sml] *)
-
