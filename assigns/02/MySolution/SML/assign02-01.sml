@@ -19,24 +19,21 @@ and then compute the size of the converted list
 *)
 
 (* ****** ****** *)
-<<<<<<< HEAD
 
 fun xlist_size ( xs : 'a xlist) : int =
     let 
         fun loop ( xs : 'a xlist , size : int ) : int = 
             case xs of
-                x1 : : xs           => loop( xs , size + 1)
-              | _                   => size
-
+                xlist_nil           => size
+              | xlist_cons(x1, xs)  => loop( xs, size + 1)
                 (* cons cell has element and sublist *)
                 (* representative of an empty list *)
     in
         loop( xs , 0)       
     end
-=======
 
 (* untested,  *)
-fun xlist_size ( xs : 'a xlist ) : int = 
+(* fun xlist_size ( xs : 'a xlist ) : int = 
 	let
 		fun loop ( xs : 'a xlist , length : int ) : int =
 			case xs of 
@@ -44,8 +41,7 @@ fun xlist_size ( xs : 'a xlist ) : int =
 			| x1 : : xs					=> loop( xs , length + 1 )		(* non-empty list not complete, need to look at documentation*)
 	in
 		loop( xs , 0 )
-	end
->>>>>>> a2f650ea756a4f0a55cf55f442cbae3faba68092
+	end *)
 
 (* ****** ****** *)
 
