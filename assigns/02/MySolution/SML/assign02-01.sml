@@ -24,8 +24,11 @@ fun xlist_size ( xs : 'a xlist) : int =
     let 
         fun loop ( xs : 'a xlist , size : int ) : int = 
             case xs of
-                xlist_nil           => size
-              | xlist_cons(x1, xs)  => loop( xs, size + 1)
+                xlist_nil               => size
+              | xlist_cons(_, rest)     => loop( xs, size + 1)
+              | xlist_snoc(rest, _)     => loop( rest, size + 1)
+              | xlist_append(xs1, xs2)  => loop( xs1, loop( xs2, size))
+              | xlist_reverse(rest)     => loop( rest, size)
                 (* cons cell has element and sublist *)
                 (* representative of an empty list *)
     in
