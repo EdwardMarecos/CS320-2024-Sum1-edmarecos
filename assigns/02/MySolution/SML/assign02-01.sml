@@ -19,6 +19,7 @@ and then compute the size of the converted list
 *)
 
 (* ****** ****** *)
+<<<<<<< HEAD
 
 fun xlist_size ( xs : 'a xlist) : int =
     let 
@@ -32,6 +33,19 @@ fun xlist_size ( xs : 'a xlist) : int =
     in
         loop( xs , 0)       
     end
+=======
+
+(* untested,  *)
+fun xlist_size ( xs : 'a xlist ) : int = 
+	let
+		fun loop ( xs : 'a xlist , length : int ) : int =
+			case xs of 
+				xlist_nil					=> 0													(* representative of empty xlist *)
+			| x1 : : xs					=> loop( xs , length + 1 )		(* non-empty list not complete, need to look at documentation*)
+	in
+		loop( xs , 0 )
+	end
+>>>>>>> a2f650ea756a4f0a55cf55f442cbae3faba68092
 
 (* ****** ****** *)
 
