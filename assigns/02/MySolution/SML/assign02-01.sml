@@ -24,17 +24,16 @@ fun xlist_size ( xs : 'a xlist) : int =
     let 
         fun loop ( xs : 'a xlist , size : int ) : int = 
             case xs of
-                xlist_nil               => size
-              | xlist_cons(_, rest)     => loop( xs, size + 1)
-              | xlist_snoc(rest, _)     => loop( rest, size + 1)
-              | xlist_append(xs1, xs2)  => loop( xs1, loop( xs2, size))
-              | xlist_reverse(rest)     => loop( rest, size)
-                (* cons cell has element and sublist*)
-                (* representative of an empty list *)
+                xlist_nil => 0
+              | xlist_cons(_, xs) => loop(xs, size+1)
+              | xlist_snoc(xs, _) => loop(xs, size+1)
+              | xlist_append(xs, ys) => loop(xs,size) + loop(ys, 0)
+              | xlist_reverse(xs) => loop(xs,size)
     in
-        loop( xs , 0)       
+        loop( xs , 0 )       
     end
 
 (* ****** ****** *)
+
 
 (* end of [CS320-2024-Sum1-assign02-01.sml] *)
