@@ -23,31 +23,32 @@ In particular, your implementation should guarantee:
   
 (* ****** ****** *)
 
-fun xlist_remove_reverse (xs: 'a xlist): 'a xlist = 
+fun xlist_remove_reverse(xs: 'a xlist): 'a xlist =
     let
-        (* Helper function to manually reverse an 'a xlist *)
-        fun reverse_xlist(xs: 'a xlist): 'a xlist =
-            let
-                fun reverse_loop(xs: 'a xlist, acc: 'a xlist): 'a xlist =
-                    case xs of
-                        xlist_nil => acc
-                      | xlist_cons (x, xs') => reverse_loop(xs', xlist_cons(x, acc))
-                      | xlist_snoc (xs', x) => reverse_loop(xs', xlist_snoc(acc, x))
-                      | xlist_append (xs1, xs2) => xlist_append(reverse_loop(xs2, acc), reverse_loop(xs1, xlist_nil))
-                      | xlist_reverse xs' => reverse_loop(xs', acc)
-                in
-                    reverse_loop(xs, xlist_nil)
-                end
-
-        fun reconstruct(xs: 'a xlist, ys: 'a xlist): 'a xlist =
+        (* Tail-recursive helper function with accumulator and reverse state toggle *)
+        fun process(xs: 'a xlist, acc: 'a xlist, isReversed: bool): 'a xlist =
             case xs of
-                xlist_nil => ys
-              | xlist_cons (x, xs') => reconstruct(xs', xlist_append(ys, xlist_cons(x, xlist_nil)))
-              | xlist_snoc (xs', x) => reconstruct(xs', xlist_append(ys, xlist_snoc(xlist_nil, x)))
-              | xlist_append (xs1, xs2) => reconstruct(xs2, reconstruct(xs1, ys))
-              | xlist_reverse xs' => reconstruct(reverse_xlist(xs'), ys)
+                xlist_nil => acc
+              | xlist_cons(x, xs') =>
+                    if isReversed then
+                        process(xs', xlist_snoc(acc, x), isReversed)
+                    else
+                        process(xs', xlist_cons(x, acc), isReversed)
+              | xlist_snoc(xs', x) =>
+                    if isReversed then
+                        process(xs', xlist_cons(x, acc), isReversed)
+                    else
+                        process(xs', xlist_snoc(acc, x), isReversed)
+              | xlist_append(xs1, xs2) =>
+                    let
+                        val leftProcessed = process(xs1, xlist_nil, isReversed)
+                        val rightProcessed = process(xs2, acc, isReversed)
+                    in
+                        xlist_append(leftProcessed, rightProcessed)
+                    end
+              | xlist_reverse(xs') => process(xs', acc, not isReversed)
     in
-        reconstruct(xs, xlist_nil)
+        process(xs, xlist_nil, false)
     end
 					   
 (* ****** ****** *)
