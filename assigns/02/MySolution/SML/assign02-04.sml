@@ -43,15 +43,6 @@ fun str2int_opt( cs : string ) : int option =
         if cs = "" then NONE
         else loop (chars , 0)
     end
-
-
-(* Test cases *)
-val a = str2int_opt ("123") (* should return SOME 123 *)
-val b = str2int_opt ("0123") (* should return SOME 123 *)
-val c = str2int_opt ("") (* should return NONE *)
-val d = str2int_opt ("12a3") (* should return NONE *)
-val e = str2int_opt ("123 ") (* should return NONE *)
-val f = str2int_opt (" 123") (* should return NONE *)
 		
 (* ****** ****** *)
 

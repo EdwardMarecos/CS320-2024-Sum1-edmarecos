@@ -21,18 +21,17 @@ and then compute the size of the converted list
 (* ****** ****** *)
 
 fun xlist_size ( xs : 'a xlist) : int =
-    let 
-        fun loop ( xs : 'a xlist , size : int ) : int = 
+    let
+        fun loop(xs: 'a xlist, acc: int) : int =
             case xs of
-                xlist_nil => 0
-              | xlist_cons(_, xs) => loop(xs, size+1)
-              | xlist_snoc(xs, _) => loop(xs, size+1)
-              | xlist_append(xs, ys) => loop(xs,size) + loop(ys, 0)
-              | xlist_reverse(xs) => loop(xs,size)
+                xlist_nil => acc
+              | xlist_cons (_, xs') => loop(xs', acc + 1)
+              | xlist_snoc (xs', _) => loop(xs', acc + 1)
+              | xlist_append (xs1, xs2) => loop(xs2, loop(xs1, acc))
+              | xlist_reverse xs' => loop(xs', acc)
     in
-        loop( xs , 0 )       
+        loop(xs, 0)
     end
-
 (* ****** ****** *)
 
 

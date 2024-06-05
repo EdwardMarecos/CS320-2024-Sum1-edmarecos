@@ -6,6 +6,18 @@ Please manually copy your implementation
 of xlist_size if you need it:
 use "./../../MySolution/SML/assign02-01.sml";
 *)
+fun xlist_size ( xs : 'a xlist) : int =
+    let
+        fun loop(xs: 'a xlist, acc: int) : int =
+            case xs of
+                xlist_nil => acc
+              | xlist_cons (_, xs') => loop(xs', acc + 1)
+              | xlist_snoc (xs', _) => loop(xs', acc + 1)
+              | xlist_append (xs1, xs2) => loop(xs2, loop(xs1, acc))
+              | xlist_reverse xs' => loop(xs', acc)
+    in
+        loop(xs, 0)
+    end
 (* ****** ****** *)
 
 (*
@@ -30,19 +42,31 @@ then do subscripting.
 fun xlist_sub ( xs : 'a xlist , i0 : int ) : 'a = 
     let
         fun loop ( xs : 'a xlist , i0 : int) : 'a =
-        case (xs, i0 = 0) of
-            (xlist_nil, _)                  => raise XlistSubscript
-          | (xlist_cons(x1,_), true)        => x1
-          | (xlist_cons(_,rest), false)     => loop (rest, i0 - 1)
-          | (xlist_snoc(_,x1), true)        => x1
-          | (xlist_snoc(rest,_), false)     => loop (rest, i0 - 1)
-          | (xlist_append(xs1, xs2), true)  => loop( xs1, loop( xs2, size))
-          | (xlist_append(xs1, xs2), false) => loop( xs1, loop( xs2, size))
-          
+        case xs of
+            xlist_nil                   => raise XlistSubscript
+          | xlist_cons (x1, xs')        => if i0 = 0 then x1 else loop( xs', i0 - 1)
+          | xlist_snoc (xs', x)         => 
+                let
+                    val xslen = xlist_size(xs')
+                in
+                    if i0 = xslen then x else loop(xs', i0)
+                end
+          | xlist_append (x1, y1)       =>
+                let
+                    val x1len = xlist_size(x1)
+                in
+                    if i0 < x1len then loop(x1, i0) else loop(y1, i0 - x1len)
+                end
+          | xlist_reverse (xs')         =>
+                let
+                    val xslen = xlist_size(xs')
+                in
+                    if 0 <= i0 andalso i0 < xslen then loop(xs', xslen - 1 - i0)
+                    else raise XlistSubscript
+                end          
     in
-        case ( i0 < 0 ) of
-            true            => raise XlistSubscript
-          | _               => loop (xs, i0, 0)
+        if i0 < 0 then raise XlistSubscript
+        else loop (xs, i0)
     end
 
 (* ****** ****** *)
