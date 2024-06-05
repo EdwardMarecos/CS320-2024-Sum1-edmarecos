@@ -23,9 +23,32 @@ In particular, your implementation should guarantee:
   
 (* ****** ****** *)
 
-fun
-xlist_remove_reverse
-(xs: 'a xlist): 'a xlist = raise NotImplemented320
+fun xlist_remove_reverse (xs: 'a xlist): 'a xlist = 
+    let
+        (* Helper function to manually reverse an 'a xlist *)
+        fun reverse_xlist(xs: 'a xlist): 'a xlist =
+            let
+                fun reverse_loop(xs: 'a xlist, acc: 'a xlist): 'a xlist =
+                    case xs of
+                        xlist_nil => acc
+                      | xlist_cons (x, xs') => reverse_loop(xs', xlist_cons(x, acc))
+                      | xlist_snoc (xs', x) => reverse_loop(xs', xlist_snoc(acc, x))
+                      | xlist_append (xs1, xs2) => xlist_append(reverse_loop(xs2, acc), reverse_loop(xs1, xlist_nil))
+                      | xlist_reverse xs' => reverse_loop(xs', acc)
+                in
+                    reverse_loop(xs, xlist_nil)
+                end
+
+        fun reconstruct(xs: 'a xlist, ys: 'a xlist): 'a xlist =
+            case xs of
+                xlist_nil => ys
+              | xlist_cons (x, xs') => reconstruct(xs', xlist_append(ys, xlist_cons(x, xlist_nil)))
+              | xlist_snoc (xs', x) => reconstruct(xs', xlist_append(ys, xlist_snoc(xlist_nil, x)))
+              | xlist_append (xs1, xs2) => reconstruct(xs2, reconstruct(xs1, ys))
+              | xlist_reverse xs' => reconstruct(reverse_xlist(xs'), ys)
+    in
+        reconstruct(xs, xlist_nil)
+    end
 					   
 (* ****** ****** *)
 
