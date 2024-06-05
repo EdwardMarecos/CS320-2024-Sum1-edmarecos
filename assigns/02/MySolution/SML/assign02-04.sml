@@ -27,9 +27,32 @@ fun str2int_opt(cs: string): int option
 
 (* ****** ****** *)
 
-fun
-str2int_opt(cs: string): int option = raise NotImplemented320
-						
+fun isDigit( c : char ) : bool = 
+    ord(c) >= ord #"0" andalso ord(c) <= ord #"9"
+
+fun str2int_opt( cs : string ) : int option = 
+    let
+        val chars = explode(cs)
+        fun loop ( cs : char list, acc : int) : int option =
+            case cs of 
+                nil         => SOME acc
+              | c :: cs     => 
+                    if isDigit(c) then loop (cs, acc * 10 + (ord(c) - ord(#"0")))
+                    else NONE   
+    in
+        if cs = "" then NONE
+        else loop (chars , 0)
+    end
+
+
+(* Test cases *)
+val a = str2int_opt ("123") (* should return SOME 123 *)
+val b = str2int_opt ("0123") (* should return SOME 123 *)
+val c = str2int_opt ("") (* should return NONE *)
+val d = str2int_opt ("12a3") (* should return NONE *)
+val e = str2int_opt ("123 ") (* should return NONE *)
+val f = str2int_opt (" 123") (* should return NONE *)
+		
 (* ****** ****** *)
 
 (* end of [CS320-2024-Sum1-assign02-04.sml] *)
