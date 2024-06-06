@@ -1,7 +1,7 @@
 (* ************************************************ *)
 (* ************************************************ *)
 (*
-HX-2024-06-03:
+HX-2024-06-04:
 Welcome to a zoo of combinators!
 *)
 (* ************************************************ *)
@@ -65,7 +65,7 @@ list_foldl
 fun
 list_append
 (xs: 'a list, ys: 'a list): 'a list =
-list_foldr(xs, ys, fn(x1, r0) => x1 :: r0)
+list_foldl(xs, ys, fn(r0, x1) => x1 :: r0)
 
 fun
 list_map (* = list_map_list *)
@@ -203,6 +203,56 @@ string_foldr(cs, [], fn(ch, r0) => fopr(ch) :: r0)
 
 fun explode(cs) = string_map_list(cs, fn c => c)
 
+(* ************************************************ *)
+(* ************************************************ *)
+
+type
+('seq, 'elt) forall =
+('seq * ('elt -> bool)) -> bool
+type
+('seq, 'elt) foreach =
+('seq * ('elt -> unit)) -> unit
+
+
+type
+('seq, 'elt) iforall =
+('seq * (int * 'elt -> bool)) -> bool
+
+
+(* ************************************************ *)
+(* ************************************************ *)
+
+fun
+forall2foreach
+(forall: ('seq, 'elt)forall): ('seq, 'elt)foreach =
+fn(xs, work) =>
+let
+val _ = forall(xs, fn (x1) => (work(x1); true)) in ()
+end
+
+(* ************************************************ *)
+(* ************************************************ *)
+
+val
+string_foreach =
+fn(xs, work) =>
+forall2foreach(string_forall)(xs, work)
+
+(* ************************************************ *)
+(* ************************************************ *)
+
+val
+char_print =
+fn(c) => print(Char.toString(c))
+val string_print =
+fn(cs: string) =>
+string_foreach(cs, fn(c) => char_print(c))
+
+(*
+val () = string_print("Hello!!!")
+*)
+
+(* ************************************************ *)
 (* ************************************************ *)
 
 (* end of [lectures/lec-06-03/mylib-06-03.sml] *)
