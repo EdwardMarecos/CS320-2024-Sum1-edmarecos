@@ -24,3 +24,16 @@ fun implode(char list): string
 
 *)
 
+fun int2str (i0 : int) : string =
+    int1_foldleft(i0, "", fn(acc, i) =>
+        let
+            val rem = i mod 10
+        in
+            case i0 of
+                0       => acc
+              | _       => implode(chr(ord#"0" + rem)) ^ acc
+
+        end
+    )
+
+(* corrections included writing 'end', fixing the implode input *)

@@ -52,5 +52,59 @@ fun xlist_remove_reverse(xs: 'a xlist): 'a xlist =
     end
 					   
 (* ****** ****** *)
-
+val xs = xlist_nil
+(*
+xs = []
+*)
+val xs = xlist_cons(1, xs)
+(*
+xs = [1]
+*)
+val xs = xlist_snoc(xs, 2)
+(*
+xs = [1,2]
+*)
+val xs = xlist_reverse(xs)
+(*
+xs = [2,1]
+*)
+val xs = xlist_append(xs, xs)
+(*
+xs = [2,1,2,1]
+*)
+(* ****** ****** *)
+fun
+nappend(xs: 'a xlist): int =
+(
+case xs of
+xlist_nil => 0
+|
+xlist_cons(_, xs) => nappend(xs)
+|
+xlist_snoc(xs, _) => nappend(xs)
+|
+xlist_append(xs, ys) => 1 + nappend(xs) + nappend(ys)
+|
+xlist_reverse(xs) => nappend(xs)
+)
+fun
+nreverse(xs: 'a xlist): int =
+(
+case xs of
+xlist_nil => 0
+|
+xlist_cons(_, xs) => nreverse(xs)
+|
+xlist_snoc(xs, _) => nreverse(xs)
+|
+xlist_append(xs, ys) => nreverse(xs) + nreverse(ys)
+|
+xlist_reverse(xs) => 1 + nreverse(xs)
+)
+val ys = xlist_remove_reverse(xs)
+val lolxs = list_of_xlist(xs)
+val lolys = list_of_xlist(ys)
+val tst1 = lolxs = lolys
+val tst2 = nreverse(ys)=0
+val tst3 = nappend(xs)=nappend(ys)
 (* end of [CS320-2024-Sum1-assign02-03.sml] *)

@@ -22,3 +22,16 @@ implementation of palindromeq. No string equality
 is allowed.
 
 *)
+
+fun palindromeq (input : string) : bool =
+        let
+            val rev = string_foldleft(input, "", fn(in, acc) => implode([in]) ^ acc)
+        in
+            string_forall (input, fn (ch, i) =>
+                strsub(implode(rev), i) = ch)
+        end
+
+(* corrections included writing 'end', "=> implode([in]) ^ acc)" at the 
+end of the rev declaration, and moving the for all into the 'in' and instead
+of case use strsub to directly compare vals
+*)
