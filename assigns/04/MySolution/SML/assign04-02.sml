@@ -20,6 +20,8 @@ val
 string_tabulate =
 fn(len, fopr) => string_implode(list_tabulate(len, fopr))
 
+(* only keep elements that satisfu a given requirment *)
+
 (* ****** ****** *)
 
 (*

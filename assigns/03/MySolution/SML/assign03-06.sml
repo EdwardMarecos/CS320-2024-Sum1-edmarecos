@@ -7,19 +7,15 @@ The function [list_subsets]
 returns all the subsets of a given
 set (where sets are represented as lists)
 //
-fun
-list_subsets
-(xs: 'a list): 'a list list =
-(
-case xs of
-  nil => [[]]
-| x1 :: xs =>
-  let
-    val res = list_subsets(xs)
-  in
-    res @ list_map(res, fn(xs) => x1 :: xs)
-  end
-)
+fun list_subsets (xs: 'a list): 'a list list =
+  case xs of
+    nil => [[]]
+  | x1 :: xs =>
+      let
+        val res = list_subsets(xs)
+      in
+        res @ list_map(res, fn(xs) => x1 :: xs)
+      end
 //
 Please give a NON-RECURSIVE implementation of
 list_subsets based on list-combinators. Note that
@@ -28,6 +24,11 @@ of a set is insignificant.
 //
 *)
 (* ****** ****** *)
+
+fun list_subsets ( xs : 'a list ) : 'a list list =
+  list_foldleft(xs, [[]], fn(acc, x1) =>
+    list_append(acc, list_map(acc, fn(xs) => x1 :: xs))
+  )
 
 (*
 val

@@ -11,9 +11,7 @@ For instance, we can define ref_foreach as follows
 
 (* ****** ****** *)
 
-fun
-ref_foreach
-(r0: 'a ref, work: 'a -> unit): unit = work(!r0)
+fun ref_foreach ( r0 : 'a ref, work : 'a -> unit ) : unit = work(!r0)
 
 (* ****** ****** *)
 
@@ -27,6 +25,7 @@ library for this class.
 (* ****** ****** *)
 
 (*
+impliment all of these combinators for this sequence
 fun
 ref_get_at
 (ref: 'a ref, i: int): 'a

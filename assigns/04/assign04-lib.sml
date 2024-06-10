@@ -378,14 +378,10 @@ strcon_cons(cx1, fxs) => fxs
 (* ****** ****** *)
 
 fun
-stream_nil
-((*void*)) =
+stream_nil ((*void*)) =
   fn () => strcon_nil(*void*)
 fun
-stream_cons
-( x1: 'a
-, fxs
-: 'a stream) =
+stream_cons ( x1: 'a , fxs : 'a stream) =
    fn () => strcon_cons(x1, fxs)
 
 (* ****** ****** *)
@@ -403,20 +399,17 @@ stream_tail
 (* ****** ****** *)
 
 fun
-stream_foreach
-(fxs, work) =
-let
-fun
-auxmain(fxs): unit =
-(
-case fxs() of
-  strcon_nil => ()
-| strcon_cons(x1, fxs) =>
-  (work(x1); auxmain(fxs))
-)
-in
-  auxmain(fxs)
-end (* end-of-[stream_foreach(fxs, work)] *)
+stream_foreach (fxs, work) =
+  let
+    fun
+      auxmain(fxs): unit =
+      case fxs() of
+        strcon_nil => ()
+      | strcon_cons(x1, fxs) =>
+          (work(x1); auxmain(fxs))
+  in
+    auxmain(fxs)
+  end (* end-of-[stream_foreach(fxs, work)] *)
 
 (* ****** ****** *)
 
@@ -432,13 +425,11 @@ foreach_to_get_at(stream_foreach)(fxs, i0))
 
 fun
 list_streamize(xs) = fn () =>
-(
-case xs of
-  nil =>
-  strcon_nil
-| x1 :: xs =>
-  strcon_cons(x1, list_streamize(xs))
-)
+  case xs of
+    nil =>
+    strcon_nil
+  | x1 :: xs =>
+    strcon_cons(x1, list_streamize(xs))
 
 (* ****** ****** *)
 (* ****** ****** *)
