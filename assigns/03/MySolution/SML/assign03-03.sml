@@ -13,6 +13,11 @@ list_tabulate(n: int, f: int -> 'a): 'a list
 //
 *)
 
+fun list_tabulate ( n : int, f : int -> 'a ) : 'a list =
+    int1_foldleft(n, [], fn(acc, n0) =>
+        f(n0) :: acc
+    )    
+
 (* ****** ****** *)
 
 (* end of [CS320-2024-Sum1-assign03-03.sml] *)
