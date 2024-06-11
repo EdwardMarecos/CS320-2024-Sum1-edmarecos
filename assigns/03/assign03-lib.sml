@@ -59,10 +59,7 @@ end (* end of [foreach_to_forall]: let *)
 (* ****** ****** *)
 
 fun
-foreach_to_foldleft
-( foreach
-: ('xs * ('x0 -> unit)) -> unit
-)
+foreach_to_foldleft ( foreach : ('xs * ('x0 -> unit)) -> unit )
 : ('xs * 'r0 * ('r0*'x0 -> 'r0)) -> 'r0 =
 fn(xs, r0, fopr) =>
 let
