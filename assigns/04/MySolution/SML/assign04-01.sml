@@ -11,7 +11,8 @@ For instance, we can define ref_foreach as follows
 
 (* ****** ****** *)
 
-fun ref_foreach ( r0 : 'a ref, work : 'a -> unit ) : unit = work(!r0)
+fun ref_foreach ( r0 : 'a ref, work : 'a -> unit ) : unit = 
+    work(!r0)
 
 (* ****** ****** *)
 
@@ -44,5 +45,20 @@ ref_ifoldleft
 *)
 
 (* ****** ****** *)
+
+fun ref_get_at ( r0 : 'a ref, i : int ) : 'a =
+    if i = 0 then (!r0) else raise Subscript
+
+fun ref_forall ( r0 : 'a ref, test : 'a -> bool ) : bool =
+    test(!r0)
+
+fun ref_map_list ( r0 : 'a ref, fopr: ('a) -> 'b ) : 'b list = 
+    [fopr(!r0)]
+
+fun ref_foldleft ( r0 : 'a ref, res : 'r, fopr: ('r * 'a) -> 'r ) : 'r =
+    fopr (res, !r0)
+
+fun ref_ifoldleft ( r0 : 'a ref, res : 'r, fopr: ('r * int * 'a) -> 'r ) : 'r =
+    fopr (res, 0, !r0)
 
 (* end of [CS320-2024-Sum1-assign04-01.sml] *)

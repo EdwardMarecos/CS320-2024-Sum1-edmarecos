@@ -133,26 +133,26 @@ foldleft_to_length(foreach_to_foldleft(foreach))
 (* ****** ****** *)
 
 fun
-foreach_to_get_at
-(
-foreach:
-('xs*('x0->unit))->unit): 'xs*int -> 'x0 =
+foreach_to_get_at( foreach: ('xs*('x0->unit))->unit): 'xs*int -> 'x0 =
 fn(xs, i0) =>
-let
-exception Found of ('x0)
-val foldleft = foreach_to_foldleft(foreach)
-in (*let*)
-(* ****** ****** *)
-let
-val r0 =
-foldleft
-( xs, 0
-, fn(r0, x0) =>
-  if i0 = r0 then
-  raise Found(x0) else r0+1) in raise Subscript
-end handle Found(x0) => x0
-(* ****** ****** *)
-end (* end-of-[foreach_to_get_at]: let *) 
+  let
+    exception Found of ('x0)
+    val foldleft = foreach_to_foldleft(foreach)
+  in (*let*)
+  (* ****** ****** *)
+    let
+      val r0 =
+      foldleft
+      ( xs, 0, fn(r0, x0) =>
+        if i0 = r0 then raise Found(x0) 
+        else r0+1
+      ) 
+    in 
+        raise Subscript
+    end 
+    handle Found(x0) => x0
+  (* ****** ****** *)
+  end (* end-of-[foreach_to_get_at]: let *) 
 
 (* ****** ****** *)
 (* ****** ****** *)
