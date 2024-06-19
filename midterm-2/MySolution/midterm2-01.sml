@@ -42,7 +42,13 @@ tree_size
 (xs: 'a tree): int = tree_fold(xs, ..., ...)
 //
 *)
+fun tree_size (xs: 'a tree): int =
+  tree_fold (xs, 0, fn (l, _, r) => 
+    l + 1 + r
+  )
 
 (* ****** ****** *)
+
+(* Any corrections made here were purely syntactical *)
 
 (* end of [CS320-2024-Sum1-midterm2-01.sml] *)

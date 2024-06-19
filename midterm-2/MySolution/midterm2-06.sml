@@ -24,4 +24,20 @@ stream_maxize(xs: int stream): int stream
 
 (* ****** ****** *)
 
+fun stream_maxize(xs: int stream): int stream =
+    let 
+        fun max(prev, tail) =
+            case tail of
+                strcon_nil            =>  strcon_nil
+              | strcon_cons (x1, fxs) =>  
+                    if x1 < prev then fn () => max(prev, fxs)
+                    else strcon_cons(x1, fn () => max(x1, fxs))
+    in 
+        case xs of
+            strcon_nil            => strcon_nil
+          | strcon_cons (x1, fxs) => strcon_cons(x1, fn () => max(x1, fxs))
+    end
+
+(* The corrections were mostly syntactical *)
+
 (* end of [CS320-2024-Sum1-midterm2-06.sml] *)

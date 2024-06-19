@@ -26,4 +26,19 @@ fun midterm2_04(xs: 'a list): 'a stream = ...
 
 (* ****** ****** *)
 
+fun midterm2_04(xs: 'a list): 'a stream =
+  let 
+    fun cons(xs, still) =
+      case xs of
+      []        => cons(list_reverse(still), list_reverse(still))
+    | x1 :: xs  => stream_cons(x1, fn () => cons(xs, still))
+  in
+    cons(xs, xs)
+  end
+
+(* most corrections made here were syntactical,
+   but i did add an extra reverse to avoid it doing
+   it non-reverse twice in a row upon start
+*)
+
 (* end of [CS320-2024-Sum1-midterm2-04.sml] *)

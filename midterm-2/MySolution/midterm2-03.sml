@@ -40,4 +40,21 @@ tree_pre_foreach_trec
 
 (* ****** ****** *)
 
+fun tree_pre_foreach_trec (xs: 'a tree, work: 'a -> unit): unit = 
+  let
+    fun process (xs, work) = 
+      case xs of
+        []    =>  ()
+      | tree_nil :: rest => process (rest, work)
+      | tree_cons (tl, x0, tr) :: rest =>
+          (work (x0); process (tl :: tr :: rest, work))
+  in
+    process ([xs], work)
+  end
+  
+  (* My corrections include turning xs into a tree list. Similarly to my
+     in class approach, empty list returns (), if we reach a node we process
+     it and pass down its children, i did add an option for tree_nil  
+  *)
+
 (* end of [CS320-2024-Sum1-midterm2-03.sml] *)
