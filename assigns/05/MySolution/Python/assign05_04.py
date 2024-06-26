@@ -28,28 +28,13 @@
 # """
 ########################################################################
 def wordle_hint(w1, w2):
-    from collections import Counter
-
-    result = []
-    w1_count = Counter(w1)
-    exact_matches = [False] * len(w1)
-    partial_matches = Counter()
-
-    # Step 1: Identify exact matches
-    for i in range(len(w2)):
-        if w2[i] == w1[i]:
-            result.append((1, w2[i]))
-            w1_count[w2[i]] -= 1
-            exact_matches[i] = True
-    
-    # Step 2: Identify partial matches
-    for i in range(len(w2)):
-        if not exact_matches[i]:
-            if w2[i] in w1_count and w1_count[w2[i]] > 0 and partial_matches[w2[i]] < w1_count[w2[i]]:
-                result.append((2, w2[i]))
-                partial_matches[w2[i]] += 1
-            else:
-                result.append((0, w2[i]))
-
-    return result
+    out = []
+    for letter in range(len(w1)):
+        if w1[letter] == w2[letter]:
+            out.append((1, w2[letter]))
+        elif w2[letter] in w1:
+            out.append((2, w2[letter]))
+        else:
+            out.append((0, w2[letter]))
+    return out
 ########################################################################

@@ -8,40 +8,70 @@
 # """
 ########################################################################
 def wordle_guess(hints):
-    from collections import defaultdict
+# alph = "abcdefghijklmnopqrstuvwxyz"
+#     keep = ""
+#     hold = ()
+#     out = ""
+#     count1 = 0
+#     for hint in hints:
+#         if hint[0] == 1:
+#             keep += hint[1]
+#             count += 1
+#         elif hint[0] == 2:
+#             hold.append((hint[1], count))
+#             keep += "_"
+#             count += 1
+#         else:
+#             keep += "_"
+#             out += hint[1]
+#             count += 1
+    
+#     for letter in range(len(keep)):
+#         if keep[letter] == "_":
+#             if hold != ():
+#                 for held in hold:
+#                     if held[1] != letter and held[0] != "_":
+#                         keep[letter] = held[0]
+#                         held[0] = "_"
+#                         break
+#             else:
+#                 for lt in alph:
+#                     if lt not in out:
+#                         keep[letter] = lt
+#                         break
 
-    # Initialize potential characters for each position
-    word_length = max(len(hint) for hint in hints)
-    potential_chars = [set("abcdefghijklmnopqrstuvwxyz") for _ in range(word_length)]
-    fixed_chars = [None] * word_length
+#         # string_foldleft(hints, "", (acc, (ind, let) =>))
+#     return keep
+# Initialize the alphabet and variables to hold the state
+    alph = "abcdefghijklmnopqrstuvwxyz"
+    keep = list("_" * len(hints[0]))  # Start with underscores for the word guess
+    hold = []  # Holds letters that are correct but in the wrong position
+    out = set()  # Set of letters that are definitely not in the word
 
-    # Apply the hints to the potential characters and fixed characters
+    # Process each hint
     for hint in hints:
-        for pos, (k, c) in enumerate(hint):
+        for i, (k, c) in enumerate(hint):
             if k == 2:
-                fixed_chars[pos] = c
-                for i in range(word_length):
-                    if i != pos:
-                        potential_chars[i].discard(c)
-            elif k == 0:
-                for i in range(word_length):
-                    potential_chars[i].discard(c)
+                keep[i] = c  # Fixed position
             elif k == 1:
-                potential_chars[pos].discard(c)
+                hold.append((c, i))  # Correct letter but wrong position
+            elif k == 0:
+                out.add(c)  # Letter not in the word
 
-    # Function to find a valid word using backtracking
-    def backtrack(position):
-        if position == word_length:
-            return "".join(fixed_chars)
-        if fixed_chars[position] is not None:
-            return backtrack(position + 1)
-        for c in potential_chars[position]:
-            fixed_chars[position] = c
-            result = backtrack(position + 1)
-            if result:
-                return result
-        fixed_chars[position] = None
-        return None
+    # Fill in the letters that are correct but in the wrong position
+    for letter, wrong_pos in hold:
+        for i in range(len(keep)):
+            if keep[i] == "_" and i != wrong_pos and letter not in keep:
+                keep[i] = letter
+                break
 
-    return backtrack(0)
+    # Fill in the remaining positions with valid letters
+    for i in range(len(keep)):
+        if keep[i] == "_":
+            for letter in alph:
+                if letter not in out and letter not in keep:
+                    keep[i] = letter
+                    break
+
+    return "".join(keep)
 ########################################################################
