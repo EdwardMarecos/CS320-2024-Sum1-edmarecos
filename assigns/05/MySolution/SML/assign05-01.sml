@@ -17,4 +17,17 @@ stream_permute_list(xs: 'a list): 'a list stream = ...
 
 (* ****** ****** *)
 
+(* helper function to insert an element into all positions in a list *)
+fun insert_all_positions(x, []) = 
+    [[x]]
+  | insert_all_positions(x, y::ys) = (x::y::ys) :: (map (fn zs => y::zs) (insert_all_positions(x, ys)))
+
+(* function to generate all permutations of a list using list_foldl *)
+fun permutations(xs) =
+  list_foldl(xs, [[]], fn (acc, x) => list_concat(map (insert_all_positions(x)) acc))
+
+(* stream_permute_list: generate a stream of all permutations of a list *)
+fun stream_permute_list(xs: 'a list): 'a list stream = 
+    list_streamize(permutations(xs))
+
 (* end of [CS320-2024-Sum1-assign05-01.sml] *)
