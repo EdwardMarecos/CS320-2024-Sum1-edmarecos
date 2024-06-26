@@ -30,26 +30,26 @@
 def wordle_hint(w1, w2):
     from collections import Counter
 
-    # Step 1: Initialize counters and results list
     result = []
     w1_count = Counter(w1)
     exact_matches = [False] * len(w1)
-    
-    # Step 2: Find exact matches
+    partial_matches = Counter()
+
+    # Step 1: Identify exact matches
     for i in range(len(w2)):
         if w2[i] == w1[i]:
             result.append((1, w2[i]))
             w1_count[w2[i]] -= 1
             exact_matches[i] = True
     
-    # Step 3: Find partial matches
+    # Step 2: Identify partial matches
     for i in range(len(w2)):
-        if not exact_matches[i]:  # Skip exact matches
-            if w2[i] in w1_count and w1_count[w2[i]] > 0:
+        if not exact_matches[i]:
+            if w2[i] in w1_count and w1_count[w2[i]] > 0 and partial_matches[w2[i]] < w1_count[w2[i]]:
                 result.append((2, w2[i]))
-                w1_count[w2[i]] -= 1
+                partial_matches[w2[i]] += 1
             else:
                 result.append((0, w2[i]))
-    
+
     return result
 ########################################################################
